@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="but-9q-iRB">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--NextStop-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="NextStopAlarm" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="pmS-cW-1sS">
+                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
+                            </mapView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EZW-O2-nw6">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <items>
+                                    <barButtonItem image="Location" id="gxp-83-gta">
+                                        <connections>
+                                            <action selector="userLocation:" destination="BYZ-38-t0r" id="DZF-cB-nB4"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="uJa-ij-sbb"/>
+                                    <barButtonItem title="Set Alarm" id="RIh-Wr-WtU">
+                                        <connections>
+                                            <action selector="setAlarm:" destination="BYZ-38-t0r" id="5SI-0l-d7V"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="TY7-1Y-Svq"/>
+                                    <barButtonItem image="Info" id="tuE-pJ-H3s">
+                                        <connections>
+                                            <action selector="info:" destination="BYZ-38-t0r" id="kGE-We-ZhQ"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="AddPin" translatesAutoresizingMaskIntoConstraints="NO" id="tFl-xX-7Tj">
+                                <rect key="frame" x="150" y="305" width="75" height="77"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="EZW-O2-nw6" firstAttribute="top" secondItem="pmS-cW-1sS" secondAttribute="bottom" id="32W-HJ-7DB"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="EZW-O2-nw6" secondAttribute="bottom" id="5ag-hy-Hnd"/>
+                            <constraint firstItem="pmS-cW-1sS" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Y5w-LL-Mjr"/>
+                            <constraint firstAttribute="trailing" secondItem="EZW-O2-nw6" secondAttribute="trailing" id="hgQ-l7-GES"/>
+                            <constraint firstItem="EZW-O2-nw6" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="oBd-T8-uTQ"/>
+                            <constraint firstAttribute="trailing" secondItem="pmS-cW-1sS" secondAttribute="trailing" id="rPK-dW-JXj"/>
+                            <constraint firstItem="pmS-cW-1sS" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="rzq-8L-cEe"/>
+                            <constraint firstItem="EZW-O2-nw6" firstAttribute="top" secondItem="pmS-cW-1sS" secondAttribute="bottom" id="wiM-Ee-bmF"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="NextStop" id="bcu-GK-lRa">
+                        <barButtonItem key="backBarButtonItem" title="Cancel" image="Cancel" id="C1F-6B-yu8"/>
+                        <barButtonItem key="leftBarButtonItem" image="Cancel" id="rrH-pd-Ds7"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="mapView" destination="pmS-cW-1sS" id="Whp-fI-o2o"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="840.79999999999995" y="-546.47676161919048"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="HhF-fr-bTX">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="but-9q-iRB" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="w23-Os-ciQ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Xbr-JR-aqf"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="X7s-7n-2sc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="148" y="-546.47676161919048"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="AddPin" width="75" height="75"/>
+        <image name="Cancel" width="25" height="25"/>
+        <image name="Info" width="25" height="25"/>
+        <image name="Location" width="15" height="15"/>
+    </resources>
+</document>
