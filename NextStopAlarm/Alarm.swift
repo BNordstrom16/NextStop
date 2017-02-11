@@ -15,29 +15,29 @@ struct LocationKey{
     static let latitude = "latitude"
     static let longitude = "longitude"
     static let radius = "radius"
-    
+    static let identifier = "identifier"
 }
 
 
 class Alarm: NSObject, NSCoding {
     
-    var title: String
     var coordinate: CLLocationCoordinate2D
     var radius: CLLocationDistance
+    var identifier: String
     //var mediaPlayer: MPMediaItem
     
-    init(coordinate: CLLocationCoordinate2D, radius: CLLocationDistance, media: MPMediaItem){
-        title = "Alarm"
+    init(coordinate: CLLocationCoordinate2D, radius: CLLocationDistance, identifier: String){
         self.coordinate = coordinate
         self.radius = radius
+        self.identifier = identifier
     }
     
     required init?(coder decoder: NSCoder) {
-        title = "Alarm"
         let latitude = decoder.decodeDouble(forKey: LocationKey.latitude)
         let longitude = decoder.decodeDouble(forKey: LocationKey.longitude)
         coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         radius = decoder.decodeDouble(forKey: LocationKey.radius)
+        identifier = decoder.decodeObject(forKey: LocationKey.identifier) as! String
         //Add media item
     }
     
@@ -45,6 +45,7 @@ class Alarm: NSObject, NSCoding {
         coder.encode(coordinate.latitude, forKey: LocationKey.latitude)
         coder.encode(coordinate.longitude, forKey: LocationKey.longitude)
         coder.encode(radius, forKey: LocationKey.radius)
+        coder.encode(identifier, forKey: LocationKey.identifier)
         //Add media item
     }
     

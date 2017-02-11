@@ -64,7 +64,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="NextStop" id="bcu-GK-lRa">
-                        <barButtonItem key="backBarButtonItem" title="Cancel" image="Cancel" id="C1F-6B-yu8"/>
                         <barButtonItem key="leftBarButtonItem" image="Cancel" id="rrH-pd-Ds7"/>
                     </navigationItem>
                     <connections>
