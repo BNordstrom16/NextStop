@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--NextStop-->
+        <!--NextStop (Alarm Not Set)-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="NextStopAlarm" customModuleProvider="target" sceneMemberID="viewController">
@@ -50,6 +50,29 @@
                                 <rect key="frame" x="150" y="305" width="75" height="77"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZdD-Ew-C0g">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <barButtonItem image="Location" id="YU8-5D-Mm4">
+                                        <connections>
+                                            <action selector="userLocation:" destination="BYZ-38-t0r" id="IlX-Se-VWy"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="hvE-AP-AK4"/>
+                                    <barButtonItem title="Set Alarm" id="7Ux-fx-i7R">
+                                        <connections>
+                                            <action selector="alarmIsOn:" destination="BYZ-38-t0r" id="G1X-pc-UfW"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="vwA-Ze-xcn"/>
+                                    <barButtonItem image="Info" id="4Hp-sl-Hpm">
+                                        <connections>
+                                            <action selector="info:" destination="BYZ-38-t0r" id="Iov-ew-VbO"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -63,7 +86,7 @@
                             <constraint firstItem="EZW-O2-nw6" firstAttribute="top" secondItem="pmS-cW-1sS" secondAttribute="bottom" id="wiM-Ee-bmF"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="NextStop" id="bcu-GK-lRa">
+                    <navigationItem key="navigationItem" title="NextStop (Alarm Not Set)" id="bcu-GK-lRa">
                         <barButtonItem key="leftBarButtonItem" image="Cancel" id="rrH-pd-Ds7"/>
                     </navigationItem>
                     <connections>

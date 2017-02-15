@@ -13,6 +13,7 @@ import CoreLocation
 class ViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!
     
+    var alarm: [Alarm]?
     let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
@@ -32,7 +33,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         mapView.setRegion(region, animated: true)
     }
     
-    @IBAction func setAlarm(_ sender: Any) {
+    @IBAction func alarmIsOn(_ sender: Any) {
     }
     
     @IBAction func info(_ sender: Any) {
@@ -57,9 +58,23 @@ class ViewController: UIViewController, MKMapViewDelegate {
         
         let region = self.region(withLocationKey: alarm)
         locationManager.startMonitoring(for: region)
-        
     }
     
+    func stopMonitoring(alarm: Alarm) {
+        for region in locationManager.monitoredRegions {
+            guard let circularRegion = region as? CLCircularRegion, circularRegion.identifier == alarm.identifier else { continue }
+            locationManager.stopMonitoring(for: circularRegion)
+        }
+    }
+    
+    func updateAlarm(){
+        if(alarm?.count == 1){
+            title = "NextStop (Alarm Set)"
+        }
+        else {
+            title = "NextStop (Alarm Not Set)"
+        }
+    }
     
 }
 
