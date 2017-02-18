@@ -10,6 +10,10 @@ import UIKit
 import MapKit
 import CoreLocation
 
+struct PreferencesKeys {
+    static let savedItems = "savedItems"
+}
+
 class ViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!
     
@@ -19,8 +23,57 @@ class ViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.showsUserLocation = true
+        locationManager.requestAlwaysAuthorization()
+        loadAlarm()
+    }
+    
+    func addAlarm(controller: ViewController, didAddCoordinate coordinate: CLLocationCoordinate2D, radius: Double, identifier: String){
+        controller.dismiss(animated: true, completion: nil)
+        let clampedRadius = min(radius, locationManager.maximumRegionMonitoringDistance)
+        let alarm = Alarm(coordinate: coordinate, radius: clampedRadius, identifier: identifier)
+        add(oneAlarm: alarm)
+        startMonitoring(alarm: alarm)
+        saveAlarm()
     }
 
+    
+    func loadAlarm() {
+        guard let savedItem = UserDefaults.standard.data(forKey: PreferencesKeys.savedItems) else { return }
+        guard let alarm = NSKeyedUnarchiver.unarchiveObject(with: savedItem) as? Alarm else { return }
+        add(oneAlarm: alarm)
+    }
+    
+    func saveAlarm() {
+        let item = NSKeyedArchiver.archivedData(withRootObject: alarm!)
+        UserDefaults.standard.set(item, forKey: PreferencesKeys.savedItems)
+    }
+    
+    func remove(alarm: Alarm) {
+        mapView.removeAnnotation(alarm)
+        removeRadiusOverlay(forAlarm: alarm)
+        updateAlarm()
+    }
+    
+    func removeRadiusOverlay(forAlarm alarm: Alarm) {
+        // Find exactly one overlay which has the same coordinates & radius to remove
+        guard let overlays = mapView?.overlays else { return }
+        for overlay in overlays {
+            guard let circleOverlay = overlay as? MKCircle else { continue }
+            let coord = circleOverlay.coordinate
+            if coord.latitude == alarm.coordinate.latitude && coord.longitude == alarm.coordinate.longitude && circleOverlay.radius == alarm.radius {
+                mapView?.remove(circleOverlay)
+                break
+            }
+        }
+    }
+    
+    func add(oneAlarm: Alarm) {
+        alarm?.append(oneAlarm)
+        mapView.addAnnotation(oneAlarm)
+        addRadiusOverlay(forAlarm: oneAlarm)
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -34,6 +87,10 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     @IBAction func alarmIsOn(_ sender: Any) {
+        let coordinate = mapView.centerCoordinate
+        let radius = 10.0
+        let identifier = NSUUID().uuidString
+        addAlarm(controller: self, didAddCoordinate: coordinate, radius: radius, identifier: identifier)
     }
     
     @IBAction func info(_ sender: Any) {
@@ -65,6 +122,11 @@ class ViewController: UIViewController, MKMapViewDelegate {
             guard let circularRegion = region as? CLCircularRegion, circularRegion.identifier == alarm.identifier else { continue }
             locationManager.stopMonitoring(for: circularRegion)
         }
+    }
+    
+    // MARK: Map overlay functions
+    func addRadiusOverlay(forAlarm alarm: Alarm) {
+        mapView?.add(MKCircle(center: alarm.coordinate, radius: alarm.radius))
     }
     
     func updateAlarm(){

@@ -19,10 +19,10 @@ struct LocationKey{
 }
 
 
-class Alarm: NSObject, NSCoding {
+class Alarm: NSObject, NSCoding, MKAnnotation {
     
     var coordinate: CLLocationCoordinate2D
-    var radius: CLLocationDistance
+    var radius: CLLocationDistance = 10.0
     var identifier: String
     //var mediaPlayer: MPMediaItem
     
@@ -32,6 +32,7 @@ class Alarm: NSObject, NSCoding {
         self.identifier = identifier
     }
     
+    // MARK: NSCoding
     required init?(coder decoder: NSCoder) {
         let latitude = decoder.decodeDouble(forKey: LocationKey.latitude)
         let longitude = decoder.decodeDouble(forKey: LocationKey.longitude)
