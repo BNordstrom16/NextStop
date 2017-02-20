@@ -21,10 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         center.delegate = self
         center.requestAuthorization(options: [.sound,.alert,.badge]) { (granted, error) in
             if(granted){
-                print("Alarm is set")
+                print("Notifications allowed")
             }
             else{
-                print("Handle some other way")
+                print("Notifications not allowed")
             }
         }
         application.registerForRemoteNotifications()

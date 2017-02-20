@@ -95,6 +95,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="CancelAlarm" destination="rrH-pd-Ds7" id="iYx-Tf-XsU"/>
+                        <outlet property="addPin" destination="tFl-xX-7Tj" id="Gni-wV-1Os"/>
                         <outlet property="mapView" destination="pmS-cW-1sS" id="Whp-fI-o2o"/>
                         <outlet property="setAlarm" destination="7Ux-fx-i7R" id="tlc-OG-N7w"/>
                     </connections>

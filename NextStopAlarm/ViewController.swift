@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var cancelAlarm: UIBarButtonItem!
     @IBOutlet weak var setAlarm: UIBarButtonItem!
+    @IBOutlet weak var addPin: UIImageView!
     
     var alarm: Alarm?
     let locationManager = CLLocationManager()
@@ -28,6 +29,7 @@ class ViewController: UIViewController {
         locationManager.requestAlwaysAuthorization()
         cancelAlarm.isEnabled = false
         setAlarm.isEnabled = true
+        addPin.isHidden = false
         loadAlarm()
     }
     
@@ -63,6 +65,8 @@ class ViewController: UIViewController {
     func remove(oneAlarm: Alarm) {
         cancelAlarm.isEnabled = false
         setAlarm.isEnabled = true
+        addPin.isHidden = false
+        
         mapView.removeAnnotation(oneAlarm)
         removeRadiusOverlay(forAlarm: oneAlarm)
         alarm = nil
@@ -88,6 +92,8 @@ class ViewController: UIViewController {
         }
         cancelAlarm.isEnabled = true
         setAlarm.isEnabled = false
+        addPin.isHidden = true
+        
         alarm = oneAlarm
         mapView.addAnnotation(alarm!)
         addRadiusOverlay(forAlarm: alarm!)
