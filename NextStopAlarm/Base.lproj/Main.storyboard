@@ -87,10 +87,16 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="NextStop (Alarm Not Set)" id="bcu-GK-lRa">
-                        <barButtonItem key="leftBarButtonItem" image="Cancel" id="rrH-pd-Ds7"/>
+                        <barButtonItem key="leftBarButtonItem" image="Cancel" id="rrH-pd-Ds7">
+                            <connections>
+                                <action selector="cancelAlarm:" destination="BYZ-38-t0r" id="aiH-wq-WEB"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="CancelAlarm" destination="rrH-pd-Ds7" id="iYx-Tf-XsU"/>
                         <outlet property="mapView" destination="pmS-cW-1sS" id="Whp-fI-o2o"/>
+                        <outlet property="setAlarm" destination="7Ux-fx-i7R" id="tlc-OG-N7w"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

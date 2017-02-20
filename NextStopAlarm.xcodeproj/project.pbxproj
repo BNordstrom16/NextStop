@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD10F40A1E5B2C7500768F99 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD10F4091E5B2C7500768F99 /* UserNotifications.framework */; };
 		AD47DDCF1E4BEDFF00B88D12 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD47DDCE1E4BEDFF00B88D12 /* AppDelegate.swift */; };
 		AD47DDD11E4BEDFF00B88D12 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD47DDD01E4BEDFF00B88D12 /* ViewController.swift */; };
 		AD47DDD41E4BEDFF00B88D12 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD47DDD21E4BEDFF00B88D12 /* Main.storyboard */; };
@@ -39,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AD10F4091E5B2C7500768F99 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		AD47DDCB1E4BEDFF00B88D12 /* NextStopAlarm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NextStopAlarm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD47DDCE1E4BEDFF00B88D12 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AD47DDD01E4BEDFF00B88D12 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD10F40A1E5B2C7500768F99 /* UserNotifications.framework in Frameworks */,
 				ADE1F4D11E4D0EA2004ECF1B /* MediaPlayer.framework in Frameworks */,
 				AD47DE001E4BEE1000B88D12 /* MapKit.framework in Frameworks */,
 				AD47DDFE1E4BEE0A00B88D12 /* CoreLocation.framework in Frameworks */,
@@ -144,6 +147,7 @@
 		AD47DDFC1E4BEE0A00B88D12 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AD10F4091E5B2C7500768F99 /* UserNotifications.framework */,
 				ADE1F4D01E4D0EA2004ECF1B /* MediaPlayer.framework */,
 				AD47DDFF1E4BEE1000B88D12 /* MapKit.framework */,
 				AD47DDFD1E4BEE0A00B88D12 /* CoreLocation.framework */,

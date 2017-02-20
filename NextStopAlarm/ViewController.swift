@@ -14,16 +14,20 @@ struct PreferencesKeys {
     static let savedItems = "savedItems"
 }
 
-class ViewController: UIViewController, MKMapViewDelegate {
+class ViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var cancelAlarm: UIBarButtonItem!
+    @IBOutlet weak var setAlarm: UIBarButtonItem!
     
-    var alarm: [Alarm]?
+    var alarm: Alarm?
     let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.showsUserLocation = true
         locationManager.requestAlwaysAuthorization()
+        cancelAlarm.isEnabled = false
+        setAlarm.isEnabled = true
         loadAlarm()
     }
     
@@ -34,6 +38,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         add(oneAlarm: alarm)
         startMonitoring(alarm: alarm)
         saveAlarm()
+        updateAlarm()
     }
 
     
@@ -41,16 +46,26 @@ class ViewController: UIViewController, MKMapViewDelegate {
         guard let savedItem = UserDefaults.standard.data(forKey: PreferencesKeys.savedItems) else { return }
         guard let alarm = NSKeyedUnarchiver.unarchiveObject(with: savedItem) as? Alarm else { return }
         add(oneAlarm: alarm)
+        updateAlarm()
     }
     
     func saveAlarm() {
-        let item = NSKeyedArchiver.archivedData(withRootObject: alarm!)
-        UserDefaults.standard.set(item, forKey: PreferencesKeys.savedItems)
+        if(alarm != nil) {
+            let item = NSKeyedArchiver.archivedData(withRootObject: alarm!)
+            UserDefaults.standard.set(item, forKey: PreferencesKeys.savedItems)
+        }
     }
     
-    func remove(alarm: Alarm) {
-        mapView.removeAnnotation(alarm)
-        removeRadiusOverlay(forAlarm: alarm)
+    @IBAction func cancelAlarm(_ sender: Any) {
+        remove(oneAlarm: alarm!)
+    }
+    
+    func remove(oneAlarm: Alarm) {
+        cancelAlarm.isEnabled = false
+        setAlarm.isEnabled = true
+        mapView.removeAnnotation(oneAlarm)
+        removeRadiusOverlay(forAlarm: oneAlarm)
+        alarm = nil
         updateAlarm()
     }
     
@@ -68,9 +83,14 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     func add(oneAlarm: Alarm) {
-        alarm?.append(oneAlarm)
-        mapView.addAnnotation(oneAlarm)
-        addRadiusOverlay(forAlarm: oneAlarm)
+        if(alarm != nil){
+            remove(oneAlarm: alarm!)
+        }
+        cancelAlarm.isEnabled = true
+        setAlarm.isEnabled = false
+        alarm = oneAlarm
+        mapView.addAnnotation(alarm!)
+        addRadiusOverlay(forAlarm: alarm!)
     }
     
     
@@ -88,7 +108,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
     
     @IBAction func alarmIsOn(_ sender: Any) {
         let coordinate = mapView.centerCoordinate
-        let radius = 10.0
+        let radius = 40.0
         let identifier = NSUUID().uuidString
         addAlarm(controller: self, didAddCoordinate: coordinate, radius: radius, identifier: identifier)
     }
@@ -130,7 +150,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     func updateAlarm(){
-        if(alarm?.count == 1){
+        if(alarm != nil){
             title = "NextStop (Alarm Set)"
         }
         else {
@@ -139,4 +159,33 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
 }
+
+// MARK: - Location Manager Delegate
+extension ViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        mapView.showsUserLocation = (status == .authorizedAlways)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
+        print("Monitoring failed for region with identifier: \(region!.identifier)")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Location Manager failed with the following error: \(error)")
+    }
+}
+
+extension ViewController: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        // Delete geotification
+        let alarm = view.annotation as! Alarm
+        stopMonitoring(alarm: alarm)
+        remove(oneAlarm: alarm)
+        saveAlarm()
+    }
+    
+    
+}
+
 

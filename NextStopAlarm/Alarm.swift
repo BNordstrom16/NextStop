@@ -22,7 +22,7 @@ struct LocationKey{
 class Alarm: NSObject, NSCoding, MKAnnotation {
     
     var coordinate: CLLocationCoordinate2D
-    var radius: CLLocationDistance = 10.0
+    var radius: CLLocationDistance = 40.0
     var identifier: String
     //var mediaPlayer: MPMediaItem
     
