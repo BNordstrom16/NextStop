@@ -15,6 +15,8 @@ struct PreferencesKeys {
 }
 
 class ViewController: UIViewController {
+    
+    // MARK: - Variables
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var cancelAlarm: UIBarButtonItem!
     @IBOutlet weak var setAlarm: UIBarButtonItem!
@@ -23,6 +25,7 @@ class ViewController: UIViewController {
     var alarm: Alarm?
     let locationManager = CLLocationManager()
     
+    // MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.showsUserLocation = true
@@ -33,6 +36,7 @@ class ViewController: UIViewController {
         loadAlarm()
     }
     
+    // MARK: - Add Alarm
     func addAlarm(controller: ViewController, didAddCoordinate coordinate: CLLocationCoordinate2D, radius: Double, identifier: String){
         controller.dismiss(animated: true, completion: nil)
         let clampedRadius = min(radius, locationManager.maximumRegionMonitoringDistance)
@@ -43,7 +47,24 @@ class ViewController: UIViewController {
         updateAlarm()
     }
 
+    func add(oneAlarm: Alarm) {
+        if(alarm != nil){
+            remove(oneAlarm: alarm!)
+        }
+        cancelAlarm.isEnabled = true
+        setAlarm.isEnabled = false
+        addPin.isHidden = true
+        
+        alarm = oneAlarm
+        mapView.addAnnotation(alarm!)
+        addRadiusOverlay(forAlarm: alarm!)
+    }
     
+    func addRadiusOverlay(forAlarm alarm: Alarm) {
+        mapView?.add(MKCircle(center: alarm.coordinate, radius: alarm.radius))
+    }
+    
+    // MARK: - Alarm Functions
     func loadAlarm() {
         guard let savedItem = UserDefaults.standard.data(forKey: PreferencesKeys.savedItems) else { return }
         guard let alarm = NSKeyedUnarchiver.unarchiveObject(with: savedItem) as? Alarm else { return }
@@ -58,10 +79,16 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func cancelAlarm(_ sender: Any) {
-        remove(oneAlarm: alarm!)
+    func updateAlarm(){
+        if(alarm != nil){
+            title = "NextStop (Alarm Set)"
+        }
+        else {
+            title = "NextStop (Alarm Not Set)"
+        }
     }
     
+    // MARK: - Remove Alarm
     func remove(oneAlarm: Alarm) {
         cancelAlarm.isEnabled = false
         setAlarm.isEnabled = true
@@ -74,7 +101,6 @@ class ViewController: UIViewController {
     }
     
     func removeRadiusOverlay(forAlarm alarm: Alarm) {
-        // Find exactly one overlay which has the same coordinates & radius to remove
         guard let overlays = mapView?.overlays else { return }
         for overlay in overlays {
             guard let circleOverlay = overlay as? MKCircle else { continue }
@@ -86,23 +112,9 @@ class ViewController: UIViewController {
         }
     }
     
-    func add(oneAlarm: Alarm) {
-        if(alarm != nil){
-            remove(oneAlarm: alarm!)
-        }
-        cancelAlarm.isEnabled = true
-        setAlarm.isEnabled = false
-        addPin.isHidden = true
-        
-        alarm = oneAlarm
-        mapView.addAnnotation(alarm!)
-        addRadiusOverlay(forAlarm: alarm!)
-    }
-    
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    // MARK: - UI Events
+    @IBAction func cancelAlarm(_ sender: Any) {
+        remove(oneAlarm: alarm!)
     }
     
     @IBAction func userLocation(_ sender: Any) {
@@ -122,6 +134,7 @@ class ViewController: UIViewController {
     @IBAction func info(_ sender: Any) {
     }
     
+    // MARK: - Alarm Monitor
     func region(withLocationKey alarm: Alarm) -> CLCircularRegion {
         let region = CLCircularRegion(center: alarm.coordinate, radius: alarm.radius, identifier: alarm.identifier)
         region.notifyOnEntry = true
@@ -150,20 +163,6 @@ class ViewController: UIViewController {
         }
     }
     
-    // MARK: Map overlay functions
-    func addRadiusOverlay(forAlarm alarm: Alarm) {
-        mapView?.add(MKCircle(center: alarm.coordinate, radius: alarm.radius))
-    }
-    
-    func updateAlarm(){
-        if(alarm != nil){
-            title = "NextStop (Alarm Set)"
-        }
-        else {
-            title = "NextStop (Alarm Not Set)"
-        }
-    }
-    
 }
 
 // MARK: - Location Manager Delegate
@@ -181,6 +180,7 @@ extension ViewController: CLLocationManagerDelegate {
     }
 }
 
+// MARK: - Map View Extension
 extension ViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
